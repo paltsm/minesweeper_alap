@@ -1,0 +1,49 @@
+body{
+	margin:0;
+	background-color: rgb(32, 32, 32);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 5rem;
+}
+button{
+	background-color: rgb(48, 48, 48);
+	border: none;
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+	margin: 0 0.5rem;
+	width: 5rem;
+	color: rgb(128, 128, 128);
+}
+button:hover{
+	background-color: rgb(64, 64, 64);
+}
+#back{
+	position: absolute;
+	top: 5rem;
+	
+}
+table{
+	margin-top: 2rem;
+}
+td{
+	width: 2rem;
+	height: 2rem;
+	background-color: rgb(64, 64, 64);
+	color: white;
+	text-align: center;
+	user-select: none;
+	padding: 0;
+
+}
+td:hover{
+	background-color: rgb(80, 80, 80);
+}
+#mine_number{
+	color: white;
+	position: absolute;
+	top: 2rem;
+}
+#bitch{
+	background: green;
+}
