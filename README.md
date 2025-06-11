@@ -1,6 +1,4 @@
-# minesweeper / aknakereső
-nem teljesen jó
+# minesweeper
 
-nincs vége képernyő
 
-[oldal](https://paltsm.github.io/minesweeper_alap/)
+[page](https://paltsm.github.io/minesweeper_alap/)
