@@ -1,4 +1,4 @@
 # minesweeper
 
 
-[page](https://paltsm.github.io/minesweeper_alap/)
+[page](https://paltsm.github.io/minesweeper/)
