@@ -1,9 +1,15 @@
 const BOARD = document.createElement("table")
 BOARD.setAttribute("id", "board")
 BOARD.setAttribute("oncontextmenu", "event.preventDefault()")
+
+const BACK = document.createElement("button")
+BACK.innerHTML = "back"
+BACK.setAttribute("id", "back")
+BACK.setAttribute("onclick", "window.location.reload()")
+
 havestarted = false
 haveended = false
-revealed=0
+revealed = 0
 let SIZE = 0
 let DIF = 0
 // i could probably make a custom size input, so any size can be put in
@@ -12,7 +18,8 @@ let DIF = 0
 
 // have restart button and back button
 
-function Info(size, dif) {
+function Init(size) {
+	let dif = Number(document.getElementById("difslide").value)
 	Board(size, dif)
 	SIZE = size
 	DIF = dif
@@ -35,12 +42,35 @@ function Board(size, dif) {
 			const TD = document.createElement("td")
 			TD.setAttribute("id", (i * size + j))
 			TD.addEventListener("click", () => Play(i * size + j))
-			TD.addEventListener("contextmenu", ()=>{TD.textContent=TD.textContent=="🚩"?"":"🚩"})
+			TD.addEventListener("dblclick",()=>Play2(i * size + j))
+			TD.addEventListener("contextmenu", () => {
+				if (!TD.classList.contains("clicked")) {
+					TD.textContent = TD.textContent == "🚩" ? "" : "🚩"
+				}
+			})
 			ROW.appendChild(TD)
 		}
 
 	}
 
+}
+
+function Play2(id){
+	const TILE = document.getElementById(id)
+	if(TILE.classList.contains("clicked")){
+		adjacent=Adjacent(id)
+		tagged=0
+		adjacent.filter(x=>{
+			if(document.getElementById(x).textContent=="🚩"){
+				tagged++
+			}
+		})
+		if(Number(TILE.textContent)==tagged){
+			adjacent.filter(x=>{
+				Play(x)
+			})
+		}
+	}
 }
 
 function Play(id) {
@@ -53,7 +83,7 @@ function Play(id) {
 		console.log(mines)
 	}
 	const TILE = document.getElementById(id)
-	if (TILE.classList.contains("clicked") || TILE.textContent =="🚩") { return }
+	if (TILE.classList.contains("clicked") || TILE.textContent == "🚩") { return }
 	if (mines.includes(id)) {
 		TILE.classList.add("mine")
 		haveended = true
@@ -62,30 +92,17 @@ function Play(id) {
 		return
 	}
 	TILE.classList.add("clicked")
+	TILE.addEventListener("contextmenu", () => { return })
 	revealed++
-	if(revealed==(SIZE*SIZE-mines.length)){
-		alert("YOU WIN") 
+	if (revealed == (SIZE * SIZE - mines.length)) {
+		alert("YOU WIN")
 		//I SHOULD REPLACE THIS WITH A POPUP 
 		// THAT SHOWS UP 1 SECOND AFTER CLICKING 
 		// AND THERE IS ANIMATION OF THE FLAGS JUMPING
 	}
 
-	let minecount = 0
-	let adjacent = []
-	for (let row = id - SIZE; row <= id + SIZE; row += SIZE) {
-		for (let adj = row - 1; adj <= row + 1; adj++) { // adj is for adjacent.
-			if ((id % SIZE == 0 && adj < row) || (id % SIZE == SIZE - 1 && row < adj)) {
-				continue
-			}
-			if (row >= 0 && row < SIZE * SIZE && adj >= 0 && adj < SIZE * SIZE && adj != id) {
-				adjacent.push(adj)
-				if (mines.includes(adj)) {
-					minecount++
-				}
-			}
-		}
-
-	}
+	let adjacent = Adjacent(id)
+	let minecount=adjacent.filter(x=> mines.includes(x)).length
 	if (minecount != 0) {
 		TILE.textContent = minecount
 	}
@@ -95,10 +112,26 @@ function Play(id) {
 
 }
 
+function Adjacent(id){
+	let adjacent = []
+	for (let row = id - SIZE; row <= id + SIZE; row += SIZE) {
+		for (let adj = row - 1; adj <= row + 1; adj++) {
+			if ((id % SIZE == 0 && adj < row) || (id % SIZE == SIZE - 1 && row < adj)) {
+				continue
+			}
+			if (row >= 0 && row < SIZE * SIZE && adj >= 0 && adj < SIZE * SIZE && adj != id) {
+				adjacent.push(adj)
+			}
+		}
+
+	}
+	return adjacent
+}
+
 function Mines(size, dif, id) {
 	let diff = [0.125, 0.1875, 0.25]
 	let mines = []
-	while (mines.length < size * size * diff[dif-1]) {
+	while (mines.length < size * size * diff[dif - 1]) {
 		let mine = Math.floor(Math.random() * (size * size))
 		if (mine != id && !mines.includes(mine)) {
 			mines.push(mine)
@@ -111,13 +144,4 @@ function Revealmines(mines) {
 	for (let i = 0; i < mines.length; i++) {
 		document.getElementById(mines[i]).classList.add("mine")
 	}
-}
-
-const BACK = document.createElement("button")
-BACK.innerHTML = "back"
-BACK.setAttribute("id", "back")
-BACK.setAttribute("onclick", "Back()")
-
-function Back() {
-	window.location.reload()
 }

@@ -1,4 +1,4 @@
-body{
+body {
 	background-color: #111;
 	color: white;
 	display: flex;
@@ -8,34 +8,43 @@ body{
 	padding-top: 5rem;
 	margin: 0;
 }
-table{
+
+table {
 	margin-top: 2rem;
 	/* background-color: #222; */
 	/* border: #555 1px solid; */
 	/* border-collapse: collapse; */
 }
-#back{
+
+#back {
 	position: absolute;
 	top: 5rem;
 }
-td{
+
+td {
 	background-color: #444;
 	border: 1px solid transparent;
 	width: 2rem;
 	height: 2rem;
+	user-select: none;
 }
-td:hover{
+
+td:hover {
 	background-color: #555;
 }
-.clicked{
+
+.clicked {
 	background-color: #333;
 }
-.clicked:hover{
+
+.clicked:hover {
 	background-color: #333;
 }
-.mine{
+
+.mine {
 	background-color: red;
 }
-.mine:hover{
+
+.mine:hover {
 	background-color: red;
 }
